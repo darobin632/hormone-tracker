@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Hormonal Symptom Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .tracker-container, .results-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f0f8ff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .hook {
+      font-style: italic;
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+
+    .motivational-message {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #555;
+      font-style: italic;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+      transform: scale(1.03);
+    }
+
+    .headline {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #4CAF50;
+    }
+
+    .result {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+ /* Add more spacing under the gratitude section */
+    .result-gratitude {
+      margin-bottom: 20px; /* Added extra bottom margin */
+    }
+
+
+    .positive {
+      color: #4CAF50; /* Green */
+    }
+
+    .neutral {
+      color: #FFC107; /* Yellow */
+    }
+
+    .moderate {
+      color: #FF9800; /* Orange */
+    }
+
+    .negative {
+      color: #F44336; /* Red */
+    }
+
+    .date {
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    .next-steps-heading {
+      text-align: center;
+      color: #4CAF50;
+      margin-top: 20px;
+    }
+
+    .next-steps {
+      text-align: center;
+      font-style: italic;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .motivational-note {
+      text-align: center;
+      font-style: italic;
+      color: #777;
+      margin-top: 20px;
+    }
+
+ @media print {
+    body {
+      background-color: white;
+      color: black;
+    }
+
+    .tracker-container, .results-container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      border: none;
+      box-shadow: none;
+    }
+
+    .button-container {
+      display: none; /* Hide buttons in print view */
+    }
+
+    .motivational-note {
+      margin-top: 30px;
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .date {
+      font-style: italic;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .result {
+      font-size: 18px;
+    }
+
+    .next-steps-heading {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+
+    .next-steps {
+      font-size: 18px;
+    }
+  }
+
+
+  </style>
+</head>
+<body>
+  <!-- Tracker Page -->
+  <div class="tracker-container" id="trackerPage">
+    <h1><span class="title-icon">⚖️</span>Daily Hormonal Symptom Tracker</h1>
+    <div class="hook">Track your hormones to understand how they affect your energy, mood, and cravings.</div>
+    <form id="symptomTracker">
+      <label for="mood">Mood (e.g., Happy, Anxious, Irritable, Calm)</label>
+      <input type="text" id="mood" name="mood" placeholder="Feeling calm, energized, or stressed? Let us know." required>
+
+      <label for="energy">Energy Level (1-10)</label>
+      <input type="number" id="energy" name="energy" min="1" max="10" placeholder="How much energy do you feel today?" required>
+
+      <label for="sleep">Sleep Quality</label>
+      <select id="sleep" name="sleep" required>
+        <option value="poor">Poor</option>
+        <option value="fair">Fair</option>
+        <option value="good">Good</option>
+        <option value="excellent">Excellent</option>
+      </select>
+
+      <label for="cravings">Cravings</label>
+      <select id="cravings" name="cravings" required>
+        <option value="none">None</option>
+        <option value="mild">Mild</option>
+        <option value="strong">Strong</option>
+        <option value="uncontrollable">Uncontrollable</option>
+      </select>
+
+      <label for="gratitude">What are you grateful for today? (Optional)</label>
+      <input type="text" id="gratitude" name="gratitude" placeholder="My health, family, or a sunny day!">
+      <div class="motivational-message">Taking a moment for gratitude can lift your mood!</div>
+
+      <button type="button" onclick="submitForm()">Submit Tracker</button>
+    </form>
+  </div>
+
+  <!-- Results Page -->
+  <div class="results-container" id="resultsPage" style="display: none;">
+    <h1>Your Daily Tracker Results</h1>
+    <div class="date" id="currentDate"></div>
+
+    <div class="headline">😊 Today you are feeling...</div>
+    <div class="result" id="resultMood"></div>
+
+    <div class="headline">⚡ Your energy level today is...</div>
+    <div class="result" id="resultEnergy"></div>
+
+    <div class="headline">🌙 Your sleep quality today is...</div>
+    <div class="result" id="resultSleep"></div>
+
+    <div class="headline">🍩 Your cravings today are...</div>
+    <div class="result" id="resultCravings"></div>
+
+    <div class="headline">🙏 What you're grateful for today:</div>
+    <div class="result" id="resultGratitude"></div>
+
+    <div class="next-steps-heading">
+      Here's what you can do to make today even better:
+    </div>
+    <div class="next-steps" id="nextSteps"></div>
+
+    <div class="button-container">
+      <button onclick="window.print()">Print Results</button>
+      <button onclick="restartTracker()">Track Again Tomorrow</button>
+    </div>
+    <div class="motivational-note">
+      Great job tracking today! Small steps lead to big changes.
+    </div>
+  </div>
+
+  <script>
+    const nextStepsList = [
+      "💧 Stay hydrated—try drinking an extra glass of water today!",
+      "🌟 Celebrate your progress—small steps lead to big changes!",
+      "🍎 Fuel your energy with a balanced snack, like nuts or fresh fruit.",
+      "🧘‍♀️ Consider a relaxing activity like yoga or meditation tonight.",
+      "👟 Take a short walk to refresh your mind and body.",
+      "🛌 Prioritize a good night's sleep to recharge for tomorrow.",
+      "📞 If you're feeling low, reach out to a friend for a quick chat."
+    ];
+
+function submitForm() {
+  const mood = document.getElementById('mood').value;
+  const energy = document.getElementById('energy').value;
+  const sleep = document.getElementById('sleep').value;
+  const cravings = document.getElementById('cravings').value;
+  const gratitude = document.getElementById('gratitude').value;
+
+  document.getElementById('resultMood').innerText = mood;
+
+  const energyElement = document.getElementById('resultEnergy');
+  energyElement.innerText = energy;
+  energyElement.className = energy > 7 ? "positive" : energy >= 4 ? "neutral" : "negative";
+
+  const sleepElement = document.getElementById('resultSleep');
+  sleepElement.innerText = sleep;
+  sleepElement.className =
+    sleep === "poor" ? "sleep-poor" :
+    sleep === "fair" ? "sleep-fair" :
+    sleep === "good" ? "sleep-good" :
+    sleep === "excellent" ? "sleep-excellent" :
+    "";
+
+  const cravingsElement = document.getElementById('resultCravings');
+  cravingsElement.innerText = cravings;
+  cravingsElement.className =
+    cravings === "none"
+      ? "positive"
+      : cravings === "mild"
+      ? "neutral"
+      : cravings === "strong"
+      ? "moderate"
+      : "negative";
+
+  document.getElementById('resultGratitude').innerText =
+    gratitude.trim() || "Taking a moment for gratitude can lift your mood!";
+
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  document.getElementById('currentDate').innerText = `Date: ${formattedDate}`;
+
+  const randomStep = nextStepsList[Math.floor(Math.random() * nextStepsList.length)];
+  document.getElementById('nextSteps').innerText = randomStep;
+
+  document.getElementById('trackerPage').style.display = 'none';
+  document.getElementById('resultsPage').style.display = 'block';
+}
+
+
+    function restartTracker() {
+      document.getElementById('symptomTracker').reset();
+      document.getElementById('trackerPage').style.display = 'block';
+      document.getElementById('resultsPage').style.display = 'none';
+    }
+  </script>
+
+  <!-- Footer Section -->
+  <footer style="text-align: center; margin-top: 20px; font-size: 14px; color: #666;">
+    <p>Visit my website for more resources: <a href="https://drdawnrobinson.com" target="_blank" style="color: #4CAF50; text-decoration: none;">DrDawnRobinson.com</a></p>
+  </footer>
+
+</body>
+</html>
